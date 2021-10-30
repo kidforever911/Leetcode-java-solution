@@ -36,3 +36,36 @@ public class Leetcode4 {
         }
     }
 }
+
+//time complexity o(log(m*n))
+class Solution {
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int n1 = nums1.length;
+        int n2 = nums2.length;
+        int total = n1 + n2;
+        double result = 0.0;
+        if(total % 2 == 0){
+            double left = find(nums1, 0, nums2, 0, total / 2);
+            double right = find(nums1, 0, nums2, 0, total / 2 + 1);
+            result = (left + right) / 2.0;
+        }else{
+            result = find(nums1, 0, nums2, 0, total / 2 + 1);
+        }
+        return result;
+    }
+
+    //从indexN1到nums1最后一个元素和从indexN2到nums2最后一个元素迭代找第k个位置
+    private double find(int[] nums1, int indexN1, int[] nums2, int indexN2, int k){
+        if(nums1.length - indexN1 > nums2.length - indexN2) return find(nums2, indexN2, nums1, indexN1, k);
+        if(k == 1){
+            if(nums1.length == indexN1) return nums2[indexN2];
+            else return Math.min(nums1[indexN1], nums2[indexN2]);
+        }
+        if(nums1.length == indexN1) return nums2[indexN2 + k - 1];
+        int s1 = Math.min(nums1.length, indexN1 + k / 2), s2 = indexN2 + k - k / 2;
+        if(nums1[s1 - 1] > nums2[s2 - 1])
+            return find(nums1, indexN1, nums2, s2, k - (s2 - indexN2));
+        else
+            return find(nums1, s1, nums2, indexN2, k - (s1 - indexN1));
+    }
+}

@@ -23,16 +23,15 @@ class Solution {
 class Solution {
     public int[] twoSum(int[] nums, int target) {
         int[] result = new int[2];
-        HashMap<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            map.put(nums[i], i);
+        if(nums.length == 0) return result;
+        HashMap<Integer, Integer> record = new HashMap<>();
+        for(int i = 0; i < nums.length; i ++){
+            record.put(nums[i], i);
         }
-        for (int j = 0; j < nums.length; j++) {
-            int diff = target - nums[j];
-            if (map.containsKey(diff) && map.get(diff) != j) {
-                result[0] = j;
-                result[1] = map.get(diff);
-                return result;
+        for(int i = 0; i < nums.length; i ++){
+            if(record.containsKey(target - nums[i]) && record.get(target - nums[i]) != i){
+                result[0] = i;
+                result[1] = record.get(target - nums[i]);
             }
         }
         return result;
