@@ -1,37 +1,17 @@
-public class Leetcode91 {
-    /**
-     * Definition for singly-linked list.
-     * public class ListNode {
-     *     int val;
-     *     ListNode next;
-     *     ListNode() {}
-     *     ListNode(int val) { this.val = val; }
-     *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
-     * }
-     */
-    class Solution {
-        public ListNode reverseBetween(ListNode head, int left, int right) {
-            if(head == null) return null;
-            ListNode dummy = new ListNode();
-            dummy.next = head;
-            ListNode pre = dummy;
-
-            for(int i = 0; i < left - 1; i++){
-                pre = pre.next;
+class Solution {
+    public int numDecodings(String s) {
+        if(s.length() == 0) return 0;
+        int n = s.length();
+        s = ' ' + s;
+        int[] f= new int[n + 1];
+        f[0] = 1;
+        for(int i = 1; i <= n; i ++){
+            if(s.charAt(i) >= '1' && s.charAt(i) <= '9') f[i] += f[i - 1];
+            if(i > 1){
+                int t = (s.charAt(i - 1) - '0') * 10 + (s.charAt(i) - '0');
+                if(t >= 10 && t <= 26) f[i] += f[i - 2];
             }
-            ListNode cur = pre.next;
-            ListNode next = cur.next;
-            for(int i = 0; i < right - left; i++){
-                //代码规范、规律：
-                //一个值赋值给另一个值，那么前面不能改变这个值
-                //例如：a.next = b.next; b.next  = c.next; c.next = d; d = e.next
-                //类似套娃，防止出现List内部出现循环。
-                cur.next = next.next;
-                next.next = pre.next;
-                pre.next = next;
-                next = cur.next;
-            }
-            return dummy.next;
         }
+        return f[n];
     }
 }
