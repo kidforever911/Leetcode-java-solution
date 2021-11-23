@@ -28,19 +28,21 @@ class Solution {
 class Solution {
     public int lengthOfLongestSubstring(String s) {
         if(s.length() == 0) return 0;
-        char[] letter = s.toCharArray();
-        HashMap<Character, Integer> record = new HashMap<>();
+        char[] letters = s.toCharArray();
         int result = 0;
-        for(int i = 0, j = 0; i < s.length(); i ++){
-            record.put(letter[i], record.getOrDefault(letter[i], 0) + 1);
-            while(record.get(letter[i]) > 1){
-                record.put(letter[j], record.get(letter[j]) - 1);
-                j++;
+        HashMap<Character, Integer> record = new HashMap<>();
+        //双指针初始位置为开头
+        for(int slow = 0, fast = 0; fast < s.length(); fast ++){
+            record.put(letters[fast], record.getOrDefault(letters[fast], 0) + 1);
+            //直到移动到无重复字符
+            while(record.get(letters[fast]) > 1){
+                //如果slow-fast区间出现重复字符，slow向右移动
+                record.put(letters[slow], record.get(letters[slow]) - 1);
+                slow ++;
             }
-            result = Math.max(result, i - j + 1);
+            result = Math.max(result, fast - slow + 1);
         }
         return result;
-
     }
 }
 

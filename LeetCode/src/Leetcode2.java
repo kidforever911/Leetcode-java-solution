@@ -82,7 +82,9 @@ class Solution {
         ListNode dummy = new ListNode();
         int t = 0;
         ListNode current = dummy;
+        //考虑注意点的两种情况
         while(l1 != null || l2 != null || t != 0){
+            //注意点中的第一种情况
             if(l1 != null) {
                 t += l1.val;
                 l1 = l1.next;
@@ -91,6 +93,7 @@ class Solution {
                 t += l2.val;
                 l2 = l2.next;
             }
+            //注意点中的第二种情况
             current = current.next = new ListNode(t % 10);
             t = t / 10;
         }
