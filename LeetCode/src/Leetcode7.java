@@ -6,8 +6,8 @@ class Solution {
             r = r * 10 + x % 10;
             x = x / 10;
         }
-        if(r >= Integer.MAX_VALUE) return 0;
-        if(r <= Integer.MIN_VALUE) return 0;
+        if(r > Integer.MAX_VALUE) return 0;
+        if(r < Integer.MIN_VALUE) return 0;
         return (int)r;
     }
 }
