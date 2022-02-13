@@ -1,6 +1,6 @@
 import java.util.Random;
 
-class Leetcode215 {
+class Solution {
     public int kthLargest(int[] arr, int k) {
         int n = arr.length;
         int left = 0;

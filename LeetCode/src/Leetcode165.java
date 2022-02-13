@@ -1,3 +1,4 @@
+//注意parseInt可以把"001"转化成1
 class Solution {
     public int compareVersion(String version1, String version2) {
         for(int i = 0, j = 0; i < version1.length() || j < version2.length(); ){

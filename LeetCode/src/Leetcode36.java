@@ -47,3 +47,26 @@ class Solution {
         return true;
     }
 }
+
+
+class Solution {
+    public boolean isValidSudoku(char[][] board) {
+        int m = board.length;
+        int n = board[0].length;
+        boolean[][] row = new boolean[m][10];
+        boolean[][] col = new boolean[n][10];
+        boolean[][][] cell = new boolean[m / 3][n / 3][10];
+        for(int i = 0; i < m; i ++){
+            for(int j = 0; j < n; j ++){
+                if(board[i][j] != '.'){
+                    int number = board[i][j] - '0';
+                    if(row[i][number] || col[j][number] || cell[i / 3][j / 3][number]) return false;
+                    row[i][number] = true;
+                    col[j][number] = true;
+                    cell[i / 3][j / 3][number] = true;
+                }
+            }
+        }
+        return true;
+    }
+}
