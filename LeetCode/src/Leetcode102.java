@@ -66,3 +66,32 @@ class Solution {
     }
 }
 
+//用数组模拟队列
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if(root == null) return result;
+        int N = 2010;
+        TreeNode[] q = new TreeNode[N];
+        int hh = 0, tt = 0;
+        q[0] = root;
+        while(tt >= hh){
+            int length = tt - hh + 1;
+            List<Integer> record = new ArrayList<>();
+            for(int i = 0; i < length; i ++){
+                TreeNode cur = q[hh ++];
+                record.add(cur.val);
+                if(cur.left != null){
+                    q[++ tt] = cur.left;
+                }
+                if(cur.right != null){
+                    q[++ tt] = cur.right;
+                }
+            }
+            result.add(record);
+        }
+        return result;
+
+    }
+}
+
