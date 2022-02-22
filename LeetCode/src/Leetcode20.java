@@ -49,3 +49,20 @@ class Solution {
         return record.isEmpty();
     }
 }
+
+class Solution {
+    public boolean isValid(String s) {
+        if(s.length() == 0) return false;
+        char[] letters = s.toCharArray();
+        Stack<Character> record = new Stack<>();
+        for(int i = 0; i < letters.length; i ++){
+            if(letters[i] == '{' || letters[i] == '[' || letters[i] == '('){
+                record.add(letters[i]);
+            }else{
+                if(record.size() == 0) return false;
+                if(Math.abs(letters[i] - record.pop()) > 2) return false;
+            }
+        }
+        return record.isEmpty();
+    }
+}
