@@ -1,6 +1,3 @@
-import java.util.HashSet;
-
-
 class Solution {
     public boolean containsDuplicate(int[] nums) {
         if (nums.length == 0) return false;
@@ -15,4 +12,3 @@ class Solution {
         return false;
     }
 }
-

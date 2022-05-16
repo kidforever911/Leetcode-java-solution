@@ -1,79 +1,71 @@
-import java.util.Random;
-
 class Solution {
-    public int kthLargest(int[] arr, int k) {
-        int n = arr.length;
-        int left = 0;
-        int right = n - 1;
-
-        Random rand = new Random(0);
-
-        while (left <= right) {
-            int choosenPivotIndex = rand.nextInt(right - left + 1) + left;
-
-            int finalIndexOfChoosenPivot = partition(arr, left, right, choosenPivotIndex);
-
-            // What does the 'finalIndexOfChoosenPivot' tell us?
-            if (finalIndexOfChoosenPivot == n - k) {
-                /*
-                 * Found. The pivot is index on index n - k. This is literally its final
-                 * position if the array we were given had been sorted. See how we saved work?
-                 * We don't need to sort the whole array
-                 */
-                return arr[finalIndexOfChoosenPivot];
-            } else if (finalIndexOfChoosenPivot > n - k) {
-                /*
-                 * k'th largest must be in the left partition. We "overshot" and need to go left
-                 * (and we do this by narrowing the right bound)
-                 */
-                right = finalIndexOfChoosenPivot - 1;
-            } else {
-                /*
-                 * finalIndexOfChoosenPivot < n - k
-                 *
-                 * k'th largest must be in the right partition. We "undershot" and need to go
-                 * right (and we do this by narrowing the left bound)
-                 */
-                left = finalIndexOfChoosenPivot + 1;
-            }
-        }
-
-        return -1;
+    public int findKthLargest(int[] nums, int k) {
+        if(nums.length == 0) return 0;
+        int result = quickSort(nums, nums.length - k + 1, 0, nums.length - 1);
+        return result;
     }
 
-    private int partition(int[] arr, int left, int right, int pivotIndex) {
-        int pivotValue = arr[pivotIndex];
-        int lesserItemsTailIndex = left;
-
-        /*
-         * Move the item at the 'pivotIndex' OUT OF THE WAY. We are about to bulldoze
-         * through the partitioning space and we don't want it in the way
-         */
-        swap(arr, pivotIndex, right);
-
-        for (int i = left; i < right; i++) {
-            if (arr[i] < pivotValue) {
-                swap(arr, i, lesserItemsTailIndex);
-                lesserItemsTailIndex++;
+    private int quickSort(int[] nums, int k, int left, int right){
+        while(left >= right) return nums[left];
+        int x = nums[left + right >> 1], i = left - 1, j = right + 1;
+        while(i < j){
+            do{
+                i ++;
+            }while(nums[i] < x);
+            do{
+                j --;
+            }while(nums[j] > x);
+            if(i < j){
+                int temp = nums[i];
+                nums[i] = nums[j];
+                nums[j] = temp;
             }
         }
+        int length = j - left + 1;
+        if(k <= length) return quickSort(nums, k, left, j);
+        else return quickSort(nums, k - length, j + 1, right);
 
-        /*
-         * Ok...partitioning is done. Swap the pivot item BACK into the space we just
-         * partitioned at the 'lesserItemsTailIndex'...that's where the pivot item
-         * belongs
-         *
-         * In the middle of the "sandwich".
-         */
-        swap(arr, right, lesserItemsTailIndex);
-
-        return lesserItemsTailIndex;
-    }
-
-    private void swap(int[] arr, int first, int second) {
-        int temp = arr[first];
-        arr[first] = arr[second];
-        arr[second] = temp;
     }
 }
 
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        if(nums.length == 0 || k > nums.length) return 0;
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> (a - b));
+        for(int i = 0; i < nums.length; i ++){
+            pq.add(nums[i]);
+            if(pq.size() > k){
+                pq.poll();
+            }
+        }
+        return pq.peek();
+    }
+}
+
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        if(nums.length == 0) return 0;
+
+        return quickSort(nums, k - 1, 0, nums.length - 1);
+    }
+
+    private int quickSort(int[] nums, int k, int left, int right){
+        while(left >= right) return nums[left];
+        int x = nums[left + right >> 1], i = left - 1, j = right + 1;
+        while(i < j){
+            do{
+                i ++;
+            }while(nums[i] > x);
+            do{
+                j --;
+            }while(nums[j] < x);
+            if(i < j){
+                int temp = nums[i];
+                nums[i] = nums[j];
+                nums[j] = temp;
+            }
+        }
+        if(k <= j) return quickSort(nums, k, left, j);
+        else return quickSort(nums, k, j + 1, right);
+    }
+}

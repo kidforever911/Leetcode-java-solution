@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 class MyQueue {
     Stack<Integer> stack = new Stack<>();
     Stack<Integer> cache = new Stack<>();
