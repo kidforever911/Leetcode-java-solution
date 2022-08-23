@@ -1,6 +1,6 @@
 class Solution {
     public List<String> mostVisitedPattern(String[] username, int[] timestamp, String[] website) {
-        HashMap<String, TreeMap<Integer, String>> map = new HashMap<>();
+        HashMap<String, <Integer, String>> map = new HashMap<>();
         for (int i = 0; i < timestamp.length; i++) {
             if (!map.containsKey(username[i])) {
                 map.put(username[i], new TreeMap<>());
