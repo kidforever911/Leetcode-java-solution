@@ -49,3 +49,40 @@ class Solution {
 
 }
 
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        int n = 0;
+        ListNode cur = head;
+        while(cur != null) {
+            cur = cur.next;
+            n ++;
+        }
+        ListNode tail = head;
+        for(int i = 0; i < n / 2; i ++) {
+            tail = tail.next;
+        }
+        ListNode first = reverse(head, tail);
+        ListNode second = new ListNode();
+        if(n % 2 == 1) second = tail.next;
+        else second = tail;
+        while(first != null && second != null) {
+            if(first.val != second.val) {
+                return false;
+            }
+            first = first.next;
+            second = second.next;
+        }
+        return true;
+    }
+    private ListNode reverse(ListNode head, ListNode tail) {
+        ListNode pre = null;
+        while(head != tail) {
+            ListNode next = head.next;
+            head.next = pre;
+            pre = head;
+            head = next;
+        }
+        return pre;
+    }
+}
+
