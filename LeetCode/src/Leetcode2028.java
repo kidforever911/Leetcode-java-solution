@@ -21,3 +21,26 @@ class Solution {
         return result;
     }
 }
+
+class Solution {
+    public int[] missingRolls(int[] rolls, int mean, int n) {
+        int[] result = new int[n];
+        int m = rolls.length;
+        int total = (m + n) * mean;
+        for(int i = 0; i < rolls.length; i ++) {
+            total -= rolls[i];
+        }
+        int t = total / n;
+        int left = total % n;
+        if((t >= 6 && left > 0) || t <= 0 || t > 6) return new int[0];
+        for(int i = 0; i < result.length; i ++) {
+            result[i] = t;
+        }
+        int index = 0;
+        while(left > 0) {
+            result[index ++] ++;
+            left --;
+        }
+        return result;
+    }
+}

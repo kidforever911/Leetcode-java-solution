@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 class RandomizedSet {
     private HashMap<Integer, Integer> record;
     private List<Integer> list;
