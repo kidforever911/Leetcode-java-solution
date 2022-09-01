@@ -1,5 +1,3 @@
-import java.util.HashMap;
-
 class RandomizedSet {
     private HashMap<Integer, Integer> record;
     private List<Integer> list;
@@ -12,25 +10,27 @@ class RandomizedSet {
     }
 
     public boolean insert(int val) {
-        if(!record.containsKey(val)) {
+        if(record.containsKey(val)) {
+            return false;
+        } else {
             list.add(val);
             record.put(val, list.size() - 1);
             return true;
         }
-        return false;
     }
 
     public boolean remove(int val) {
         if(record.containsKey(val)) {
+            int valIndex = record.get(val);
             int lastVal = list.get(list.size() - 1);
-            int px = record.get(val);
-            list.set(px, lastVal);
-            record.put(lastVal, px);
-            list.remove(list.size() - 1);
+            list.set(valIndex, lastVal);
+            record.put(lastVal, valIndex);
             record.remove(val);
+            list.remove(list.size() - 1);
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     public int getRandom() {
