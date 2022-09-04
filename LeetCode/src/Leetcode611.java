@@ -36,3 +36,17 @@ class Solution {
         return left;
     }
 }
+
+class Solution {
+    public int triangleNumber(int[] nums) {
+        Arrays.sort(nums);
+        int result = 0;
+        for(int i = nums.length - 1; i >= 0; i --) {
+            for(int j = i - 1, k = 0; j >= 0 && k < j; j --) {
+                while(k < j && nums[k] <= nums[i] - nums[j]) k ++;
+                result += j - k;
+            }
+        }
+        return result;
+    }
+}
