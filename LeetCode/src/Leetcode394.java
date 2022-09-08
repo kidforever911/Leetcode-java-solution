@@ -1,3 +1,4 @@
+//时间复杂度o（k^n）
 class Solution {
     int u = 0;
     public String decodeString(String s) {
@@ -22,5 +23,35 @@ class Solution {
             }
         }
         return result;
+    }
+}
+
+class Solution {
+    public String decodeString(String s) {
+        Stack<Integer> nums = new Stack<>();
+        Stack<String> record = new Stack<>();
+
+        String cur = "";
+        int count = 0;
+        for(char c : s.toCharArray()) {
+            if(Character.isDigit(c)) {
+                count = count * 10 + (c - '0');
+            } else if(c == '[') {
+                nums.add(count);
+                record.add(cur);
+                cur = "";
+                count = 0;
+            } else if(c == ']') {
+                String temp = cur;
+                cur = record.pop();
+                int number = nums.pop();
+                while(number -- > 0) {
+                    cur += temp;
+                }
+            } else {
+                cur += c;
+            }
+        }
+        return cur;
     }
 }
