@@ -44,3 +44,27 @@ class Solution {
         return;
     }
 }
+
+class Solution {
+    public Node cloneGraph(Node node) {
+        HashMap<Node, Node> record = new HashMap<>();
+        dfs(node, record);
+        for(Node source : record.keySet()) {
+            for(Node n : source.neighbors) {
+                record.get(source).neighbors.add(record.get(n));
+            }
+        }
+        return record.get(node);
+    }
+
+    private void dfs(Node node, HashMap<Node, Node> record) {
+        if(node == null) return;
+        record.put(node, new Node(node.val));
+        for(Node temp : node.neighbors) {
+            if(!record.containsKey(temp)) {
+                dfs(temp, record);
+            }
+        }
+        return;
+    }
+}
