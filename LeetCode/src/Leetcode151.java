@@ -32,3 +32,20 @@ class Solution {
         return result.trim();
     }
 }
+
+class Solution {
+    public String reverseWords(String s) {
+        if(s.length() == 0) return "";
+        StringBuilder result = new StringBuilder();
+        for(int i = s.length() - 1; i >= 0; i --) {
+            int j = i;
+            while(j >= 0 && s.charAt(j) == ' ') j --;
+            if(j < 0) break;
+            int k = j;
+            while(k >= 0 && s.charAt(k) != ' ') k --;
+            result.append(s.substring(k + 1, j + 1)).append(" ");
+            i = k;
+        }
+        return result.deleteCharAt(result.length() - 1).toString();
+    }
+}
