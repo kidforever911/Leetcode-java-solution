@@ -1,32 +1,31 @@
 class UndergroundSystem {
-    private final String DELIMETER = ",";
-    private HashMap<Integer, Event> arrival;
-    private HashMap<String, Average> ave;
-
+    HashMap<Integer, Event> recordEvent;
+    HashMap<String, Average> recordTwoStations;
+    private String DELIMETER = ",";
     public UndergroundSystem() {
-        arrival = new HashMap<>();
-        ave = new HashMap<>();
+        recordEvent = new HashMap<>();
+        recordTwoStations = new HashMap<>();
     }
 
     public void checkIn(int id, String stationName, int t) {
-        arrival.put(id, new Event(id, stationName, t));
+        Event checkInEvent = new Event(id, stationName, t);
+        recordEvent.put(id, checkInEvent);
     }
 
     public void checkOut(int id, String stationName, int t) {
-        Event theEvent = arrival.get(id);
-        arrival.remove(id);
-        int diff = t - theEvent.t;
-        String key = theEvent.stationName + DELIMETER + stationName;
-        Average theAverage = ave.containsKey(key) ? ave.get(key) : new Average();
+        Event checkInEvent = recordEvent.get(id);
+        int diff = t - checkInEvent.t;
+        String key = checkInEvent.stationName + DELIMETER + stationName;
+        Average theAverage = recordTwoStations.getOrDefault(key, new Average());
         theAverage.updateAverage(diff);
-        ave.put(key, theAverage);
+        recordTwoStations.put(key, theAverage);
     }
 
     public double getAverageTime(String startStation, String endStation) {
-        return ave.get(startStation + DELIMETER + endStation).getAverage();
+        return recordTwoStations.get(startStation + DELIMETER + endStation).getAverage();
     }
 
-    class Event {
+    class Event{
         int id;
         String stationName;
         int t;
@@ -36,19 +35,17 @@ class UndergroundSystem {
             this.t = t;
         }
     }
-
     class Average {
         double total = 0.0;
         int count = 0;
-        public void updateAverage (int diff) {
-            ++ count;
-            total += diff;
+        public void updateAverage(int diff) {
+            this.total += diff;
+            this.count ++;
         }
-        public double getAverage(){
+        public double getAverage() {
             return total / count;
         }
     }
-
 }
 
 /**
