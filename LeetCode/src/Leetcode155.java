@@ -32,6 +32,36 @@ class MinStack {
     }
 }
 
+class MinStack {
+    private Stack<Integer> record;
+    private int min;
+
+    public MinStack() {
+        record = new Stack<>();
+        min = Integer.MAX_VALUE;
+    }
+
+    public void push(int val) {
+        if(val <= min) {
+            record.push(min);
+            min = val;
+        }
+        record.push(val);
+    }
+
+    public void pop() {
+        if(record.pop() == min) min = record.pop();
+    }
+
+    public int top() {
+        return record.peek();
+    }
+
+    public int getMin() {
+        return min;
+    }
+}
+
 /**
  * Your MinStack object will be instantiated and called as such:
  * MinStack obj = new MinStack();

@@ -24,6 +24,45 @@ class BrowserHistory {
     }
 }
 
+class BrowserHistory {
+    class Node{
+        String url;
+        Node next;
+        Node prev;
+        public Node(String url){
+            this.url = url;
+            this.next = null;
+            this.prev = null;
+        }
+    }
+    private Node head, cur;
+    public BrowserHistory(String homepage) {
+        head = new Node(homepage);
+        cur = head;
+    }
+
+    public void visit(String url) {
+        Node visitUrl = new Node(url);
+        cur.next = visitUrl;
+        visitUrl.prev = cur;
+        cur = visitUrl;
+    }
+
+    public String back(int steps) {
+        while(cur.prev != null && steps -- > 0) {
+            cur = cur.prev;
+        }
+        return cur.url;
+    }
+
+    public String forward(int steps) {
+        while(cur.next != null && steps -- > 0) {
+            cur = cur.next;
+        }
+        return cur.url;
+    }
+}
+
 /**
  * Your BrowserHistory object will be instantiated and called as such:
  * BrowserHistory obj = new BrowserHistory(homepage);

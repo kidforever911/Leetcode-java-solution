@@ -3,7 +3,6 @@ class Solution {
     int u = 0;
     public String decodeString(String s) {
         if(s.length() == 0) return "";
-        int u = 0;
         return dfs(s);
     }
     private String dfs(String s) {

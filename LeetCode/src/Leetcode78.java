@@ -66,3 +66,24 @@ class Solution {
         return result;
     }
 }
+
+class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> record = new ArrayList<>();
+        dfs(nums, 0, record, result);
+        return result;
+    }
+
+    private void dfs(int[] nums, int index, List<Integer> record, List<List<Integer>> result) {
+        if(index == nums.length) {
+            result.add(new ArrayList<>(record));
+            return;
+        }
+        record.add(nums[index]);
+        dfs(nums, index + 1, record, result);
+        record.remove(record.size() - 1);
+
+        dfs(nums, index + 1, record, result);
+    }
+}

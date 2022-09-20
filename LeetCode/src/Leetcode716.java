@@ -1,46 +1,71 @@
 class MaxStack {
-    private Stack<Integer> stack;
-    //记录每次push之后当前stack的最大值
-    private Stack<Integer> maxStack;
+    private TreeMap<Integer, List<Node>> record;
+    private Node head, tail;
 
     public MaxStack() {
-        stack = new Stack<>();
-        maxStack = new Stack<>();
+        head = new Node(-1);
+        tail = new Node(-1);
+        record = new TreeMap<>(Collections.reverseOrder());
+        head.right = tail;
+        tail.left = head;
     }
 
     public void push(int x) {
-        int max = stack.isEmpty() ? Integer.MIN_VALUE : maxStack.peek();
-        if(x >= max) {
-            max = x;
+        Node cur = new Node(x);
+        if(!record.containsKey(x)) {
+            record.put(x, new ArrayList<>());
         }
-        stack.push(x);
-        maxStack.push(max);
+        record.get(x).add(cur);
+        insert(cur);
     }
 
     public int pop() {
-        maxStack.pop();
-        return stack.pop();
+        int value = head.right.value;
+        remove(head.right);
+        record.get(value).remove(record.get(value).size() - 1);
+        if(record.get(value).size() == 0) {
+            record.remove(value);
+        }
+        return value;
     }
 
     public int top() {
-        return stack.peek();
+        return head.right.value;
     }
 
     public int peekMax() {
-        return maxStack.peek();
+        return record.firstKey();
     }
 
     public int popMax() {
-        Stack<Integer> temp = new Stack<>();
-        int max = maxStack.peek();
-        while(stack.peek() != max) {
-            temp.add(stack.pop());
-            maxStack.pop();
+        int value = record.firstKey();
+        remove(record.get(value).remove(record.get(value).size() - 1));
+        if(record.get(value).size() == 0) {
+            record.remove(value);
         }
-        stack.pop();
-        maxStack.pop();
-        while(!temp.isEmpty()) {
-            push(temp.pop());
+        return value;
+    }
+
+    private void insert(Node cur) {
+        cur.right = head.right;
+        head.right.left = cur;
+        head.right = cur;
+        cur.left = head;
+    }
+
+    private void remove(Node cur) {
+        cur.left.right = cur.right;
+        cur.right.left = cur.left;
+    }
+
+    class Node{
+        int value;
+        Node left;
+        Node right;
+        public Node(int val) {
+            this.value = val;
+            this.left = null;
+            this.right = null;
         }
     }
 }
