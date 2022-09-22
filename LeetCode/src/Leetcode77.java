@@ -3,7 +3,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-class Solution {
+class kSolution {
     public List<List<Integer>> combine(int n, int k) {
         List<List<Integer>> result = new ArrayList<>();
         if (n <= 0 || k <= 0 || k > n) return result;
@@ -76,3 +76,26 @@ class Solution {
     }
 }
 
+
+class Solution {
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> record = new ArrayList<>();
+        dfs(n, k, 0, 1, record, result);
+        return result;
+    }
+
+    private void dfs(int n, int k, int index, int cur, List<Integer> record, List<List<Integer>> result) {
+        if(index == k) {
+            result.add(new ArrayList<>(record));
+            return;
+        }
+
+        for(int i = cur; i <= n - (k - index) + 1; i ++) {
+            record.add(i);
+            dfs(n, k, index + 1, i + 1, record, result);
+            record.remove(record.size() - 1);
+        }
+        return;
+    }
+}

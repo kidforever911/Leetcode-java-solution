@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Solution {
+class fSolution {
     public int[] findOrder(int numCourses, int[][] prerequisites) {
         List<List<Integer>> record = new ArrayList<>();
         int[] d = new int[numCourses];

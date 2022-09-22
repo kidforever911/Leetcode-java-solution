@@ -53,3 +53,30 @@ class Solution {
         }
         return dummyHead.next;
     }
+}
+
+//原地算法
+class Solution {
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        if(list1 == null) return list2;
+        if(list2 == null) return list1;
+        if(list1.val > list2.val) {
+            ListNode temp = list1;
+            list1 = list2;
+            list2 = temp;
+        }
+        ListNode cur1 = list1;
+        ListNode cur2 = list2;
+        while(cur1.next != null && cur2 != null) {
+            while(cur1.next != null && cur1.next.val <= cur2.val) {
+                cur1 = cur1.next;
+            }
+            ListNode next = cur2.next;
+            cur2.next = cur1.next;
+            cur1.next = cur2;
+            cur2 = next;
+        }
+        if(cur1.next == null) cur1.next = cur2;
+        return list1;
+    }
+}

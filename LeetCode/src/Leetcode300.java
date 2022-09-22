@@ -71,3 +71,24 @@ class Solution {
     }
 }
 
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        List<Integer> record = new ArrayList<>();
+        for(int x : nums) {
+            if(record.isEmpty() || x > record.get(record.size() - 1)) record.add(x);
+            else {
+                int left = 0, right = record.size() - 1;
+                while(left < right) {
+                    int mid = left + right >> 1;
+                    if(record.get(mid) >= x) right = mid;
+                    else left = mid + 1;
+                }
+                record.set(right, x);
+
+            }
+        }
+        return record.size();
+    }
+}
+
