@@ -57,3 +57,46 @@ class Solution {
         return;
     }
 }
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        List<List<Integer>> result = new ArrayList<>();
+        if(root == null) return result;
+        List<Integer> record = new ArrayList<>();
+        dfs(root, targetSum, record, result);
+        return result;
+    }
+
+    private void dfs(TreeNode root, int targetSum, List<Integer> record, List<List<Integer>> result) {
+        record.add(root.val);
+        if(root.left == null && root.right == null && targetSum == root.val) {
+            result.add(new ArrayList<>(record));
+            return;
+        }
+        if(root == null) return;
+        if(root.left != null) {
+            dfs(root.left, targetSum - root.val, record, result);
+            record.remove(record.size() - 1);
+        }
+        if(root.right != null) {
+            dfs(root.right, targetSum - root.val, record, result);
+            record.remove(record.size() - 1);
+        }
+        return;
+    }
+}
