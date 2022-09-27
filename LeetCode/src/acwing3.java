@@ -1,5 +1,29 @@
 import java.util.*;
 import java.io.*;
+
+public class Main{
+    public static void main(String[] args) {
+        Scanner in = new Scanner(new BufferedInputStream(System.in));
+        int n = in.nextInt();
+        int m = in.nextInt();
+        int[] v = new int[n];
+        int[] w = new int[n];
+        for(int i = 0; i < n; i ++) {
+            v[i] = in.nextInt();
+            w[i] = in.nextInt();
+        }
+        int[][] f = new int[n + 1][m + 1];
+        for(int i = 1; i <= n; i ++) {
+            for(int j = 0; j <= m; j ++) {
+                for(int k = 0; k * v[i - 1] <= j; k ++) {
+                    f[i][j] = Math.max(f[i][j], f[i - 1][j - v[i - 1] * k] + k * w[i - 1]);
+                }
+            }
+        }
+        System.out.println(f[n][m]);
+        return;
+    }
+}
 //未优化版
 public class Main{
     private static int N =1010;
