@@ -34,3 +34,40 @@ class Solution {
         return result;
     }
 }
+
+class Solution {
+    public String mostCommonWord(String paragraph, String[] banned) {
+        String s = paragraph.toLowerCase();
+        HashMap<String, Integer> record = new HashMap<>();
+        HashSet<String> set = new HashSet<>();
+        for(String temp : banned) {
+            set.add(temp);
+        }
+        StringBuilder sb = new StringBuilder();
+        for(char c : paragraph.toCharArray()) {
+            char lower = Character.toLowerCase(c);
+            if(lower >= 'a' && lower <= 'z') {
+                sb.append(lower);
+            } else {
+                if(sb.length() > 0) {
+                    record.put(sb.toString(), record.getOrDefault(sb.toString(), 0) + 1);
+                    sb = new StringBuilder();
+                }
+            }
+        }
+        if(sb.length() > 0) record.put(sb.toString(), record.getOrDefault(sb.toString(), 0) + 1);
+        PriorityQueue<String> pq = new PriorityQueue<>((a, b) -> (record.get(b) - record.get(a)));
+        for(String temp : record.keySet()) {
+            pq.add(temp);
+        }
+        String result = "";
+        while(!pq.isEmpty()) {
+            String temp = pq.poll();
+            if(!set.contains(temp)) {
+                result = temp;
+                break;
+            }
+        }
+        return result;
+    }
+}
