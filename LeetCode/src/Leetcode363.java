@@ -28,3 +28,35 @@ class Solution {
         return preSum[x2][y2] - preSum[x2][y1 - 1] - preSum[x1 - 1][y2] + preSum[x1 - 1][y1 - 1];
     }
 }
+
+class Solution {
+    public int maxSumSubmatrix(int[][] matrix, int k) {
+        if(matrix.length == 0 || matrix[0].length == 0) return 0;
+        int row = matrix.length;
+        int col = matrix[0].length;
+        int[][] preSum = new int[row + 1][col + 1];
+        for(int i = 1; i <= row; i ++) {
+            for(int j = 1; j <= col; j ++) {
+                preSum[i][j] = matrix[i - 1][j - 1] + preSum[i][j - 1] + preSum[i - 1][j] - preSum[i - 1][j - 1];
+            }
+        }
+        int result = Integer.MIN_VALUE;
+        for(int i = 1; i <= col; i ++) {
+            for(int j = i; j <= col; j ++) {
+                TreeSet<Integer> record = new TreeSet<>();
+                record.add(0);
+                for(int m = 1; m <= row; m ++) {
+                    int si = get(preSum, 1, i, m, j);
+                    Integer sj = record.ceiling(si - k);
+                    if(sj != null) result = Math.max(result, si - sj);
+                    record.add(si);
+                }
+            }
+        }
+        return result;
+    }
+
+    private int get(int[][] preSum, int x1, int y1, int x2, int y2) {
+        return preSum[x2][y2] - preSum[x1 - 1][y2] - preSum[x2][y1 - 1] + preSum[x1 - 1][y1 - 1];
+    }
+}
