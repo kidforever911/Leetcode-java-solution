@@ -44,3 +44,23 @@ class Solution {
         return;
     }
 }
+
+class Solution {
+    public boolean findTarget(TreeNode root, int k) {
+        List<Integer> record = new ArrayList<>();
+        dfs(root, record);
+        for(int i = 0, j = record.size() - 1; i < j; ) {
+            int sum = record.get(i) + record.get(j);
+            if(sum == k) return true;
+            else if(sum < k) i ++;
+            else j --;
+        }
+        return false;
+    }
+    private void dfs(TreeNode root, List<Integer> record) {
+        if(root == null) return;
+        if(root.left != null) dfs(root.left, record);
+        record.add(root.val);
+        if(root.right != null) dfs(root.right, record);
+    }
+}
