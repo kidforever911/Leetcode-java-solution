@@ -16,3 +16,16 @@ class Solution {
         return ' ';
     }
 }
+
+class Solution {
+    public char findTheDifference(String s, String t) {
+        int result = 0;
+        for(char c : s.toCharArray()) {
+            result ^= (c - 'a');
+        }
+        for(char c : t.toCharArray()) {
+            result ^= (c - 'a');
+        }
+        return (char)(result + 'a');
+    }
+}
