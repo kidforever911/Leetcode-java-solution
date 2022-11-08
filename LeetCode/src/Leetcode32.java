@@ -18,7 +18,7 @@ class Solution {
                     }else{
                         result = Math.max(result, i - start);
                     }
-                }else{fsdfdsfsdfs
+                }else{
                         start = i;
                 }
             }
